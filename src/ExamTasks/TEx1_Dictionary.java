@@ -27,7 +27,27 @@ public class TEx1_Dictionary {
         // TODO
     }
 
-    public void AddValue(String value) {
+    // It must follow the protection rules for a DictType
+    public void AddValue(String key, String value) {
         // TODO
+        keys.add(key);
+        values.add(value);
+    }
+
+    private boolean LangCheck(String s) {
+        if(type == DictTypes.FIRST_LANG) {
+            String eng_alp = "qwertyuiopasdfghjklzxcvbnm";
+
+            for (int i=0; i<s.length(); i++) {
+                if (eng_alp.indexOf(s.charAt(i)) == -1) return false;
+            }
+
+            return s.length() != 4; // TODO: WIP
+        }
+        else if (type == DictTypes.SECOND_LANG) {
+
+        }
+
+        return true;
     }
 }
