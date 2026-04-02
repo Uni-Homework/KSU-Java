@@ -30,22 +30,34 @@ public class TEx1_Dictionary {
     // It must follow the protection rules for a DictType
     public void AddValue(String key, String value) {
         // TODO
+        if (!LangCheck(key)) {
+            IO.println("Error: the key is invalid!");
+            return;
+        }
+
         keys.add(key);
         values.add(value);
     }
 
+    // TODO: test
     private boolean LangCheck(String s) {
         if(type == DictTypes.FIRST_LANG) {
             String eng_alp = "qwertyuiopasdfghjklzxcvbnm";
 
             for (int i=0; i<s.length(); i++) {
-                if (eng_alp.indexOf(s.charAt(i)) == -1) return false;
+                if (eng_alp.indexOf(Character.toLowerCase(s.charAt(i))) == -1) return false;
             }
 
-            return s.length() != 4; // TODO: WIP
+            return s.length() == 4;
         }
         else if (type == DictTypes.SECOND_LANG) {
+            for(int i=0; i<s.length(); i++) {
+                if (!Character.isDigit(s.charAt(i))) {
+                    return false;
+                }
+            }
 
+            return s.length() == 5;
         }
 
         return true;
