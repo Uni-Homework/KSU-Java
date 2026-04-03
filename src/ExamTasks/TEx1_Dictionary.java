@@ -2,22 +2,28 @@ package ExamTasks;
 
 import java.util.LinkedList;
 import java.util.List;
+import org.json.simple.JSONObject;
 
 public class TEx1_Dictionary {
     private List<String> keys;
     private List<String> values;
     private DictTypes type = DictTypes.FIRST_LANG;
+    private JSONObject jsonObject;
 
     public TEx1_Dictionary (DictTypes dictionaryType) {
         keys = new LinkedList<>();
         values = new LinkedList<>();
+
+        jsonObject = new JSONObject();
     }
 
     public void ParseFile(String filename){
         // TODO
     }
     public void WriteToFile(String filename) {
-
+        for (int i=0; i<keys.size(); i++) {
+            // WIP
+        }
     }
 
     public void PrintPairs() {
