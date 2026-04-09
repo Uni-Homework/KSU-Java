@@ -8,12 +8,12 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-public class TEx1_Dictionary {
+public class Dictionary {
     private List<String> keys;
     private List<String> values;
     private DictTypes type = DictTypes.FIRST_LANG;
 
-    public TEx1_Dictionary (DictTypes dictionaryType) {
+    public Dictionary(DictTypes dictionaryType) {
         type = dictionaryType;
 
         keys = new LinkedList<>();
@@ -129,6 +129,10 @@ public class TEx1_Dictionary {
 
         keys.add(key);
         values.add(value);
+    }
+
+    public void PrintLangHint() {
+        // TODO
     }
 
     private boolean LangCheck(String s) {

@@ -1,6 +1,6 @@
 package org.sun1zu;
 
-import org.sun1zu.ExamTasks.T1.Model.TEx1_Dictionary;
+import org.sun1zu.ExamTasks.T1.Model.Dictionary;
 import org.sun1zu.Lab4.*;
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class Main {
                 lang = SECOND_LANG;
         }
 
-        var dict = new TEx1_Dictionary(lang);
+        var dict = new Dictionary(lang);
 
         // Parsing
         try{

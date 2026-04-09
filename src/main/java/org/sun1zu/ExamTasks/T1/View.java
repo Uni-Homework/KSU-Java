@@ -1,6 +1,6 @@
 package org.sun1zu.ExamTasks.T1;
 
-import org.sun1zu.ExamTasks.T1.Model.TEx1_Dictionary;
+import org.sun1zu.ExamTasks.T1.Model.Dictionary;
 
 public class View {
     private static int MenuWaitUserInput(String menu, int min, int max) {
@@ -37,15 +37,39 @@ public class View {
                     System.exit(0);
                     break;
                 case 1:
-
+                    break;
+                default:
+                    IO.println("Unknown command!");
+                    break;
             }
         }
     }
 
     String menu2 = "1. Read all pairs\n2. Delete by key\n3. Find value by key\n4. Add value\n0. Back";
 
-    void DictMenu() {
+    void DictMenu(Dictionary dict) {
         while(true) {
+            var input = MenuWaitUserInput(menu2, 0, 4);
+            switch (input) {
+                case 0:
+                    return;
+                case 1:
+                    dict.PrintPairs();
+                    break;
+                case 2:
+                    var del_inp = IO.readln("Input a key for pair to delete: ");
+                    dict.DeletePairByKey(del_inp);
+                    break;
+                case 3:
+                    var find_inp = IO.readln("Input a key for pair to output: ");
+                    dict.FindValue(find_inp);
+                    break;
+                case 4:
+                    // TODO
+                    var key_inp = IO.readln("Input a key to add pair to a dict: ");
+                    var val_inp = IO.readln("Input a value to add pair to a dict: ");
+                    dict.AddValue(add_inp, );
+            }
 
         }
     }
