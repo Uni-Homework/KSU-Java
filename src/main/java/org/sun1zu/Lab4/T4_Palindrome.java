@@ -1,4 +1,4 @@
-package Lab4;
+package org.sun1zu.Lab4;
 
 public class T4_Palindrome {
     public boolean Solve(String input) {

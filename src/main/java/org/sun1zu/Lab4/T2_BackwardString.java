@@ -1,4 +1,4 @@
-package Lab4;
+package org.sun1zu.Lab4;
 
 // 2. Напишите рекурсивный метод отображающий строку задом на перед.
 public class T2_BackwardString {

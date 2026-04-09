@@ -1,4 +1,4 @@
-package ExamTasks;
+package org.sun1zu.ExamTasks;
 
 import java.util.LinkedList;
 import java.util.List;
