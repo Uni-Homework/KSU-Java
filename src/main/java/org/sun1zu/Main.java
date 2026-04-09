@@ -26,6 +26,13 @@ public class Main {
 
         var dict = new TEx1_Dictionary(lang);
 
+        // Parsing
+        try{
+            dict.ParseFile("test.dict.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         dict.AddValue("12345", "First");
         dict.AddValue("54321", "Second");
         dict.AddValue("abcd", "Third");
@@ -39,6 +46,7 @@ public class Main {
         dict.FindValue("abcd");
         dict.FindValue("54321");
 
+        // Writing
         try {
             dict.WriteToFile("test.dict.txt");
         } catch (IOException e) {

@@ -1,16 +1,17 @@
 package org.sun1zu.ExamTasks;
 
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 public class TEx1_Dictionary {
     private List<String> keys;
     private List<String> values;
     private DictTypes type = DictTypes.FIRST_LANG;
-    private JSONObject jsonObject;
 
     public TEx1_Dictionary (DictTypes dictionaryType) {
         type = dictionaryType;
@@ -18,17 +19,49 @@ public class TEx1_Dictionary {
         keys = new LinkedList<>();
         values = new LinkedList<>();
 
-        jsonObject = new JSONObject();
-
         IO.println("Created new dict of language " + GetLanguage());
     }
 
-    public void ParseFile(String filename){
-        // TODO
+    /**
+     * Parses file into current dictionary object.
+     * WARNING! Overwrites all contents of current dictionary.
+     * @param filename Name of the file to read data from
+     * @throws IOException File is corrupted
+     */
+    public void ParseFile(String filename) throws IOException {
+        IO.println("Parsing file " + filename);
+
+        var fr = new FileReader(filename);
+        String data = fr.readAllAsString();
+
+        Object obj = JSONValue.parse(data);
+        JSONObject jsonObject = (JSONObject) obj;
+
+        IO.println("File opened successfully! Clearing...");
+        Clear();
+
+        // Extract language
+        type = (DictTypes) DictTypes.valueOf((String) jsonObject.get("DictLang"));
+        jsonObject.remove("DictLang");
+        IO.println("Language of the file: " + GetLanguage());
+
+        // Extract data
+        for (Object o : jsonObject.keySet()) {
+            var key = (String) o;
+            AddValue(key, (String) jsonObject.get(key));
+        }
+        IO.println("Done! Found " + keys.size() + " elements");
+
+        jsonObject.clear();
+        fr.close();
     }
+
     public void WriteToFile(String filename) throws IOException {
+        var jsonObject = new JSONObject();
         var fw = new FileWriter(filename);
-        jsonObject.put("DictLang", type);
+
+        jsonObject.put("DictLang", type.name());
+
         for (int i=0; i<keys.size(); i++) {
             jsonObject.put(keys.get(i), values.get(i));
         }
@@ -119,5 +152,10 @@ public class TEx1_Dictionary {
         }
 
         return true;
+    }
+
+    public void Clear(){
+        keys.clear();
+        values.clear();
     }
 }
