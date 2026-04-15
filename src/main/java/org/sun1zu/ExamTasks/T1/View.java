@@ -1,3 +1,4 @@
+// TODO: add abortion on nonexistent selection (instead of 0)
 package org.sun1zu.ExamTasks.T1;
 
 import org.sun1zu.ExamTasks.T1.Model.Dictionary;
@@ -44,16 +45,19 @@ public class View {
                     DictMenu(dictionary, "");
                     break;
                 case 2:
-                    var inp = IO.readln("Input file name: ");
+                    var inp = FileSelect();
+                    if(inp.equals("D3ADB33F")) break;
                     try {
-                        Dictionary.ParseFile(inp);
+                        var dict = Dictionary.ParseFile(inp);
+                        DictMenu(dict, inp);
                     } catch (IOException e){
                         IO.println("File not found or is corrupted!");
                     }
                     break;
 
                 case 3:
-                    var fname = IO.readln("Input file name to delete: ");
+                    var fname = FileSelect();
+                    if(fname.equals("D3ADB33F")) break;
                     var file = new File(fname);
                     if(file.delete()) {
                         IO.println("Dictionary deleted successfully!");
@@ -112,14 +116,13 @@ public class View {
                     var val_inp = IO.readln("Input a value to add pair to a dict: ");
                     dict.AddValue(key_inp, val_inp);
             }
-
+            IO.println();
         }
     }
 
-    // TODO: impl in Delete and Edit dict menu options
     /**
      * Looks for all dict files in program working dir and lets the user select one of them
-     * @return User selected filename
+     * @return User selected filename OR "D3ADB33F" if selection is "Back"
      */
     private static String FileSelect() {
         var fnames = Dictionary.GetDictFiles();
@@ -132,6 +135,7 @@ public class View {
         menu = menu.concat("0. Back");
 
         int sel = MenuWaitUserInput(menu, 0, fnames.size());
+        if (sel == 0) return "D3ADB33F";
         return fnames.get(sel-1);
     }
 }

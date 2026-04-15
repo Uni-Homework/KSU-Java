@@ -30,7 +30,7 @@ public class Dictionary {
      * Use this method to init a dictionary (no language given)
      * @return An empty dictionary with a language set by user
      */
-    public static Dictionary InitDictionary() {
+    public static Dictionary InitDictionary() throws IndexOutOfBoundsException {
         IO.println("Select dictionary language: ");
 
         for (int i=0; i<DictTypes.values().length; i++){
@@ -58,7 +58,7 @@ public class Dictionary {
      * @throws IOException File is corrupted
      */
     public static Dictionary ParseFile(String filename) throws IOException {
-        IO.println("Parsing file " + filename);
+//        IO.println("Parsing file " + filename);
 
         var fr = new FileReader(filename);
         String data = fr.readAllAsString();
@@ -70,7 +70,6 @@ public class Dictionary {
         var type = (DictTypes) DictTypes.valueOf((String) jsonObject.get("DictLang"));
         var dict = new Dictionary(type);
         jsonObject.remove("DictLang");
-        IO.println("Language of the file: " + dict.GetLanguage());
 
         // Extract data
         for (Object o : jsonObject.keySet()) {
@@ -78,6 +77,7 @@ public class Dictionary {
             dict.AddValue(key, (String) jsonObject.get(key));
         }
         IO.println("Done! Found " + dict.keys.size() + " elements");
+        IO.println("Language of the file: " + dict.GetLanguage());
 
         jsonObject.clear();
         fr.close();
@@ -106,9 +106,12 @@ public class Dictionary {
 
     public void WriteToFile(String filename) throws IOException {
         var jsonObject = new JSONObject();
-        var fw = new FileWriter(filename);
 
-        if (!filename.contains(file_ext)) filename += file_ext;
+        var new_fname = filename;
+
+        if (!filename.contains(file_ext)) new_fname += file_ext;
+
+        var fw = new FileWriter(new_fname);
 
         jsonObject.put("DictLang", type.name());
 
