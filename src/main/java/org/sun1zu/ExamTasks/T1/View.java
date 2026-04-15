@@ -1,11 +1,9 @@
 package org.sun1zu.ExamTasks.T1;
 
-import org.sun1zu.ExamTasks.T1.Model.DictTypes;
 import org.sun1zu.ExamTasks.T1.Model.Dictionary;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Types;
 
 public class View {
     private static int MenuWaitUserInput(String menu, int min, int max) {
@@ -32,7 +30,7 @@ public class View {
 
     static String menu1 = "1. Create dict\n2. Edit dict\n3. Remove dict\n0. Exit";
 
-    public static void run() {
+    static void main() {
         IO.println("Dictionaries by sun1zu\n");
 
         while (true) {
@@ -42,18 +40,13 @@ public class View {
                     System.exit(0);
                     break;
                 case 1:
-                    try {
-                        Dictionary dictionary = new Dictionary(DictTypes.FIRST_LANG);
-                        dictionary.ParseFile(fname);
-                    } catch (IOException e){
-                        IO.println("File not found or is corrupted!");
-                    }
+                    Dictionary dictionary = Dictionary.InitDictionary();
+                    DictMenu(dictionary, "");
                     break;
                 case 2:
-
+                    var inp = IO.readln("Input file name: ");
                     try {
-                        Dictionary dictionary = new Dictionary(DictTypes.FIRST_LANG);
-                        dictionary.ParseFile(fname);
+                        Dictionary.ParseFile(inp);
                     } catch (IOException e){
                         IO.println("File not found or is corrupted!");
                     }
@@ -74,17 +67,18 @@ public class View {
                     IO.println("Unknown command!");
                     break;
             }
+            IO.println();
         }
     }
 
-    String menu2 = "1. Read all pairs\n2. Delete by key\n3. Find value by key\n4. Add value\n0. Save and exit";
+    static String menu2 = "1. Read all pairs\n2. Delete by key\n3. Find value by key\n4. Add value\n0. Save and exit";
 
     /**
      * Menu for user to modify a dictionary
      * @param dict dictionary to modify
      * @param filename leave empty not to overwrite file
      */
-    void DictMenu(Dictionary dict, String filename) {
+    static void DictMenu(Dictionary dict, String filename) {
         while(true) {
             var input = MenuWaitUserInput(menu2, 0, 4);
             switch (input) {
@@ -120,5 +114,24 @@ public class View {
             }
 
         }
+    }
+
+    // TODO: impl in Delete and Edit dict menu options
+    /**
+     * Looks for all dict files in program working dir and lets the user select one of them
+     * @return User selected filename
+     */
+    private static String FileSelect() {
+        var fnames = Dictionary.GetDictFiles();
+
+        String menu = "";
+        int c=1;
+        for(var el: fnames) {
+            menu = menu.concat(String.format("%d. %s\n", c++, el));
+        }
+        menu = menu.concat("0. Back");
+
+        int sel = MenuWaitUserInput(menu, 0, fnames.size());
+        return fnames.get(sel-1);
     }
 }
