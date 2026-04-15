@@ -1,6 +1,11 @@
 package org.sun1zu.ExamTasks.T1;
 
+import org.sun1zu.ExamTasks.T1.Model.DictTypes;
 import org.sun1zu.ExamTasks.T1.Model.Dictionary;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.Types;
 
 public class View {
     private static int MenuWaitUserInput(String menu, int min, int max) {
@@ -37,7 +42,34 @@ public class View {
                     System.exit(0);
                     break;
                 case 1:
+                    try {
+                        Dictionary dictionary = new Dictionary(DictTypes.FIRST_LANG);
+                        dictionary.ParseFile(fname);
+                    } catch (IOException e){
+                        IO.println("File not found or is corrupted!");
+                    }
                     break;
+                case 2:
+
+                    try {
+                        Dictionary dictionary = new Dictionary(DictTypes.FIRST_LANG);
+                        dictionary.ParseFile(fname);
+                    } catch (IOException e){
+                        IO.println("File not found or is corrupted!");
+                    }
+                    break;
+
+                case 3:
+                    var fname = IO.readln("Input file name to delete: ");
+                    var file = new File(fname);
+                    if(file.delete()) {
+                        IO.println("Dictionary deleted successfully!");
+                    }
+                    else {
+                        IO.println("Error: file does not exist");
+                    }
+                    break;
+
                 default:
                     IO.println("Unknown command!");
                     break;
@@ -45,13 +77,30 @@ public class View {
         }
     }
 
-    String menu2 = "1. Read all pairs\n2. Delete by key\n3. Find value by key\n4. Add value\n0. Back";
+    String menu2 = "1. Read all pairs\n2. Delete by key\n3. Find value by key\n4. Add value\n0. Save and exit";
 
-    void DictMenu(Dictionary dict) {
+    /**
+     * Menu for user to modify a dictionary
+     * @param dict dictionary to modify
+     * @param filename leave empty not to overwrite file
+     */
+    void DictMenu(Dictionary dict, String filename) {
         while(true) {
             var input = MenuWaitUserInput(menu2, 0, 4);
             switch (input) {
                 case 0:
+                    if (filename.compareTo("") == 0) {
+                        filename = IO.readln("Enter new filename: ");
+                    }
+
+                    try {
+                        dict.WriteToFile(filename);
+                    } catch (IOException e) {
+                        IO.println("Error when writing to file!");
+                        return;
+                    }
+
+                    IO.println("File saved successfully");
                     return;
                 case 1:
                     dict.PrintPairs();
@@ -65,10 +114,9 @@ public class View {
                     dict.FindValue(find_inp);
                     break;
                 case 4:
-                    // TODO
                     var key_inp = IO.readln("Input a key to add pair to a dict: ");
                     var val_inp = IO.readln("Input a value to add pair to a dict: ");
-                    dict.AddValue(add_inp, );
+                    dict.AddValue(key_inp, val_inp);
             }
 
         }

@@ -22,6 +22,19 @@ public class Dictionary {
         IO.println("Created new dict of language " + GetLanguage());
     }
 
+    public static Dictionary InitDictionary() {
+        IO.println("Select dictionary language: ");
+
+        for (int i=0; i<DictTypes.values().length; i++){
+            IO.println(String.format("%d. %s", i+1, DictTypes.values()[i]));
+        }
+
+        var sel = "-1";
+        var isel = Integer.parseInt(sel);
+        while(isel < 0 && isel > DictTypes.values().length-1)
+
+    }
+
     /**
      * Parses file into current dictionary object.
      * WARNING! Overwrites all contents of current dictionary.
@@ -129,10 +142,6 @@ public class Dictionary {
 
         keys.add(key);
         values.add(value);
-    }
-
-    public void PrintLangHint() {
-        // TODO
     }
 
     private boolean LangCheck(String s) {
