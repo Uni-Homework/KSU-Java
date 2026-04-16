@@ -23,7 +23,7 @@ public class Dictionary {
         keys = new LinkedList<>();
         values = new LinkedList<>();
 
-        IO.println("Created new dict of language " + GetLanguage());
+//        IO.println("Created new dict of language " + GetLanguage());
     }
 
     /**
@@ -58,7 +58,7 @@ public class Dictionary {
      * @throws IOException File is corrupted
      */
     public static Dictionary ParseFile(String filename) throws IOException {
-//        IO.println("Parsing file " + filename);
+        // IO.println("Parsing file " + filename);
 
         var fr = new FileReader(filename);
         String data = fr.readAllAsString();
@@ -74,7 +74,7 @@ public class Dictionary {
         // Extract data
         for (Object o : jsonObject.keySet()) {
             var key = (String) o;
-            dict.AddValue(key, (String) jsonObject.get(key));
+            dict.AddValue(key, (String) jsonObject.get(key), false);
         }
         IO.println("Done! Found " + dict.keys.size() + " elements");
         IO.println("Language of the file: " + dict.GetLanguage());
@@ -150,10 +150,10 @@ public class Dictionary {
     }
 
     // It must follow the protection rules for a DictType
-    public void AddValue(String key, String value) {
-        IO.print(String.format("Adding pair (%s, %s)... ", key, value));
+    public void AddValue(String key, String value, boolean detailed) {
+        if (detailed) IO.print(String.format("Adding pair (%s, %s)... ", key, value));
         if (!LangCheck(key)) {
-            IO.println("Error: the key is invalid for this dictionary (language: " + GetLanguage() + ")");
+            if (detailed) IO.println("Error: the key is invalid for this dictionary (language: " + GetLanguage() + ")");
             return;
         }
 
@@ -161,14 +161,17 @@ public class Dictionary {
         if (found == -1) {
             keys.add(key);
             values.add(value);
-            IO.println("Pair added successfully!");
+            if (detailed) IO.println("Pair added successfully!");
         }
         else {
             values.set(found, value);
-            IO.println("Pair overwritten successfully!");
+            if (detailed) IO.println("Pair overwritten successfully!");
         }
     }
 
+    public void AddValue(String key, String value) {
+        AddValue(key, value, true);
+    }
 
     private String GetLanguage() {
         return type.toString();
