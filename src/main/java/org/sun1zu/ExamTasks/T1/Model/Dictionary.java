@@ -156,10 +156,17 @@ public class Dictionary {
             IO.println("Error: the key is invalid for this dictionary (language: " + GetLanguage() + ")");
             return;
         }
-        IO.println("Pair added successfully!");
 
-        keys.add(key);
-        values.add(value);
+        var found = FindValueID(key);
+        if (found == -1) {
+            keys.add(key);
+            values.add(value);
+            IO.println("Pair added successfully!");
+        }
+        else {
+            values.set(found, value);
+            IO.println("Pair overwritten successfully!");
+        }
     }
 
 
