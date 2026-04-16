@@ -1,9 +1,10 @@
 package org.sun1zu.ExamTasks.T1.Model;
 
+// TODO: rename to DictType
 public enum DictTypes {
-    FIRST_LANG("Первый язык", "Длина слов может быть только 4 символа, и эти символы - только" +
+    FIRST_LANG("Первый язык", "Длина слов может быть только 4 символа, и эти символы - только " +
             "буквы латинской раскладки"),
-    SECOND_LANG("Второй язык", "Длина слов может быть только" +
+    SECOND_LANG("Второй язык", "Длина слов может быть только " +
             "5 символов, и эти символы - только цифры");
 
     private final String name;
@@ -20,5 +21,10 @@ public enum DictTypes {
 
     public String getHint() {
         return hint;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }
