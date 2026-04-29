@@ -14,7 +14,7 @@ import java.util.List;
 import static org.sun1zu.ExamTasks.T1.Model.Tools.MenuWaitUserInput;
 
 // TODO: add documentation
-public class Dictionary {
+public class Dictionary implements MyDict {
     public static final String file_ext = ".dict.txt";
 
     private final List<String> keys;
