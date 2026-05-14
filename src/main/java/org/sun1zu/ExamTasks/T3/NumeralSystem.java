@@ -4,10 +4,10 @@ package org.sun1zu.ExamTasks.T3;
  * Поддерживаемые системы счисления с соответствующими основаниями
  */
 public enum NumeralSystem {
-    BINARY(2, "01"),
-    OCTAL(8, "01234567"),
-    DECIMAL(10, "0123456789"),
-    HEXADECIMAL(16, "0123456789ABCDEF");
+    BIN(2, "01"),
+    OCT(8, "01234567"),
+    DEC(10, "0123456789"),
+    HEX(16, "0123456789ABCDEF");
 
     private final int radix;
     private final String allowedChars;
